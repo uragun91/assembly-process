@@ -1,24 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { ListItem } from './components/list-item/list-item';
+import { AssemblyProcess } from './models/AssemblyProcess';
 
 const App: React.FC = () => {
+
+  const assemblyProcesses: AssemblyProcess[] = [1, 2, 3, 4, 5].map((num: number) => {
+    return AssemblyProcess.build({_id: num.toString(), title: `Assembly Porcess ${num}`})
+  })
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {assemblyProcesses.map((process: AssemblyProcess) => {
+        return <ListItem key={process._id} item={process}></ListItem>
+      })}
+
     </div>
   );
 }
