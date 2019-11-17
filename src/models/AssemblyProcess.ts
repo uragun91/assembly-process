@@ -12,13 +12,18 @@ export class AssemblyProcess {
   ) {}
 
   public static build(data: any): AssemblyProcess {
+    let updatedAt = new Date(data.updatedAt)
+    if (isNaN(updatedAt.getTime())) {
+      updatedAt = new Date()
+    }
+
     return new AssemblyProcess(
       data._id || '',
       data.img || 'angular.png',
       data.assemblyStatus || '',
       data.reviewStatus || '',
       data.title || '',
-      new Date(data.updatedAt)
+      updatedAt
     )
   }
 }
