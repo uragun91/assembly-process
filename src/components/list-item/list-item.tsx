@@ -31,7 +31,7 @@ export class ListItem extends Component<IListItemProps> {
             <span>Rename</span>
             <span>Delete</span>
           </div>
-          <button className="btn">View Process</button>
+          <button className="list-item__btn">View Process</button>
         </div>
       </div>
     );

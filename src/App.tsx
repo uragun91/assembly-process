@@ -24,7 +24,9 @@ const App: React.FC = () => {
       </div>
       {
         assemblyProcesses.map((process: AssemblyProcess) => {
-          return <ListItem key={process._id} item={process}></ListItem>
+          return <div className="assembly-process-container">
+            <ListItem key={process._id} item={process}></ListItem>
+          </div>
         })
       }
     </div>
