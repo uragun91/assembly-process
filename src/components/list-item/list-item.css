@@ -16,6 +16,7 @@
 
 .list-item__title {
   font-size: 18px;
+  margin-top: 0;
 }
 
 .list-item__review-status,
@@ -36,6 +37,10 @@
   align-items: flex-end;
   align-self: stretch;
   justify-content: space-between;
+}
+
+.list-item__rest-action {
+  margin: 0 5px
 }
 
 .list-item__btn {

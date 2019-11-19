@@ -1,0 +1,5 @@
+{
+  "port": 9999,
+  "watch": "db.json",
+  "no-cors": true
+}

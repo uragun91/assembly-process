@@ -27,9 +27,13 @@ export class ListItem extends Component<IListItemProps> {
           </div>
         </div>
         <div className="list-item__actions">
-          <div className="list-items__rest-actions">
-            <span>Rename</span>
-            <span>Delete</span>
+          <div className="list-item__rest-actions">
+            <svg className="list-item__rest-action" width="17" height="17">
+              <use xlinkHref='#icon-edit' />
+            </svg>
+            <svg className="list-item__rest-action" width="17" height="17">
+              <use xlinkHref='#icon-delete' />
+            </svg>
           </div>
           <button className="list-item__btn">View Process</button>
         </div>
