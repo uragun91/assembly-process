@@ -8,54 +8,6 @@
   padding-top: 24px;
 }
 
-.status-filters-container {
-  position: fixed;
-  padding: 20px;
-  background: #F4F5F6;
-  border: 1px solid #D6DADB;
-  box-sizing: border-box;
-  border-radius: 4px;
-  top: 24px;
-}
-
-.filters-title {
-  margin: 0 0 20px 0;
-  font-size: 18px;
-}
-
-.filters-group-title {
-  font-weight: normal;
-  font-size: 11px;
-  color: #98989D;
-  margin: 0;
-  line-height: 13px;
-}
-
-ul.filters-list {
-  padding: 0;
-  list-style: none;
-}
-
-li.filter-name {
-  padding-left: 12px;
-  color: #98989D;;
-  cursor: pointer;
-  transition: color 150ms ease-in-out;
-  line-height: 24px;
-  font-size: 14px;
-  margin: 5px 0;
-}
-
-li.filter-name:not(.selected-filter):hover {
-  color: #000;
-}
-
-li.filter-name.selected-filter {
-  border-left: 1px solid #000;
-  font-weight: 600;
-  color: #000;
-}
-
 .App-header {
   display: flex;
   justify-content: space-between;

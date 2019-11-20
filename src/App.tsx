@@ -7,20 +7,20 @@ import { SvgIcons } from './components/svg-icons/svg-icons';
 import { timer, Subject } from 'rxjs';
 import { debounce } from 'rxjs/operators'
 import { SortOrders } from './enums/SortOrders';
-import { AssemblyStatuses, assemblyStatusesMap } from './enums/AssemblyStatuses';
-import { ReviewStatuses, reviewStatusesMap } from './enums/ReviewStatuses';
+import { AssemblyStatuses } from './enums/AssemblyStatuses';
+import { ReviewStatuses } from './enums/ReviewStatuses';
 import OrderDirectionSwitcher from './components/state-switcher/order-direction-switcher';
+import { StatusFilters } from './components/status-filters/status-filters';
 
 interface IAppState {
   items: AssemblyProcess[],
-  sortingOrder: SortOrders
-  queryString: string
+  sortingOrder: SortOrders,
+  queryString: string,
+  assemblyStatusFilter: AssemblyStatuses | '',
+  reviewStatusFilter: ReviewStatuses | ''
 }
 
 class App extends React.Component<{}, IAppState> {
-
-  public assemblyStatusFilter: AssemblyStatuses | '' = ''
-  public reviewStatusFilter: ReviewStatuses | '' = ''
 
   public searchSubject: Subject<string> = new Subject()
   public debounceSearch$ = this.searchSubject.pipe(debounce(() => timer(400)))
@@ -30,18 +30,30 @@ class App extends React.Component<{}, IAppState> {
     this.state = {
       items: [],
       sortingOrder: SortOrders.DESC,
-      queryString: ''
+      queryString: '',
+      assemblyStatusFilter: '',
+      reviewStatusFilter: ''
     }
   }
 
   public UNSAFE_componentWillMount(): void {
     this.initSubscribers()
-    dataService.getAssemblyProcesses(this.assemblyStatusFilter, this.reviewStatusFilter, this.state.queryString, this.state.sortingOrder)
+    dataService.getAssemblyProcesses(
+      this.state.assemblyStatusFilter,
+      this.state.reviewStatusFilter,
+      this.state.queryString,
+      this.state.sortingOrder
+    )
   }
 
   public onSortingDirectionValueChanged = (order: SortOrders): void => {
     this.setState({sortingOrder: order})
-    dataService.getAssemblyProcesses(this.assemblyStatusFilter, this.reviewStatusFilter, this.state.queryString, this.state.sortingOrder)
+    dataService.getAssemblyProcesses(
+      this.state.assemblyStatusFilter,
+      this.state.reviewStatusFilter,
+      this.state.queryString,
+      this.state.sortingOrder
+    )
   }
 
   private initSubscribers(): void {
@@ -50,7 +62,12 @@ class App extends React.Component<{}, IAppState> {
     })
 
     this.debounceSearch$.subscribe((filterVal: string) => {
-      dataService.getAssemblyProcesses(this.assemblyStatusFilter, this.reviewStatusFilter, filterVal, this.state.sortingOrder)
+      dataService.getAssemblyProcesses(
+        this.state.assemblyStatusFilter,
+        this.state.reviewStatusFilter,
+        filterVal,
+        this.state.sortingOrder
+      )
     })
   }
 
@@ -59,39 +76,39 @@ class App extends React.Component<{}, IAppState> {
     this.searchSubject.next(this.state.queryString)
   }
 
+  public handleAssemblyStatusChanged = (status: AssemblyStatuses | '') => {
+    this.setState({assemblyStatusFilter: status}, () => {
+      dataService.getAssemblyProcesses(
+        this.state.assemblyStatusFilter,
+        this.state.reviewStatusFilter,
+        this.state.queryString,
+        this.state.sortingOrder
+      )
+    })
+  }
+
+  public handleReviewStatusChanged = (status: ReviewStatuses | '') => {
+    this.setState({reviewStatusFilter: status}, () => {
+      dataService.getAssemblyProcesses(
+        this.state.assemblyStatusFilter,
+        this.state.reviewStatusFilter,
+        this.state.queryString,
+        this.state.sortingOrder
+      )
+    })
+  }
+
   render(){
 
     return (
       <div className="App">
         <SvgIcons></SvgIcons>
-        <div className="status-filters-container">
-          <h1 className="filters-title">Filters</h1>
-          <div className="filters-group">
-            <h2 className="filters-group-title">Assembly</h2>
-            <ul className="filters-list">
-              <li className="filter-name selected-filter">Any</li>
-              {
-                Object.keys(AssemblyStatuses).map((status: string, i: number) => {
-                  const typedStatus = status as keyof typeof AssemblyStatuses
-                  return <li className="filter-name" key={i}>{assemblyStatusesMap[AssemblyStatuses[typedStatus]]}</li>
-                })
-              }
-            </ul>
-          </div>
-
-          <div className="filters-group">
-            <h2 className="filters-group-title">Review</h2>
-            <ul className="filters-list">
-              <li className="filter-name selected-filter">Any</li>
-              {
-                Object.keys(ReviewStatuses).map((status: string, i: number) => {
-                  const typedStatus = status as keyof typeof ReviewStatuses
-                  return <li className="filter-name" key={i}>{reviewStatusesMap[ReviewStatuses[typedStatus]]}</li>
-                })
-              }
-            </ul>
-          </div>
-        </div>
+        <StatusFilters
+          assemblyStatus={this.state.assemblyStatusFilter}
+          reviewStatus={this.state.reviewStatusFilter}
+          assemblyStatusChanged={this.handleAssemblyStatusChanged}
+          reviewStatusChanged={this.handleReviewStatusChanged}
+        ></StatusFilters>
         <div className="container">
 
           <div className="App-header">
