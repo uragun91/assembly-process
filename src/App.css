@@ -1,10 +1,64 @@
 .App {
-  width: 1024px;
+  width: 1200px;
   margin: 0 auto;
+}
+
+.container {
+  margin-left: 280px;
+  padding-top: 24px;
+}
+
+.status-filters-container {
+  position: fixed;
+  padding: 20px;
+  background: #F4F5F6;
+  border: 1px solid #D6DADB;
+  box-sizing: border-box;
+  border-radius: 4px;
+  top: 24px;
+}
+
+.filters-title {
+  margin: 0 0 20px 0;
+  font-size: 18px;
+}
+
+.filters-group-title {
+  font-weight: normal;
+  font-size: 11px;
+  color: #98989D;
+  margin: 0;
+  line-height: 13px;
+}
+
+ul.filters-list {
+  padding: 0;
+  list-style: none;
+}
+
+li.filter-name {
+  padding-left: 12px;
+  color: #98989D;;
+  cursor: pointer;
+  transition: color 150ms ease-in-out;
+  line-height: 24px;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+li.filter-name:not(.selected-filter):hover {
+  color: #000;
+}
+
+li.filter-name.selected-filter {
+  border-left: 1px solid #000;
+  font-weight: 600;
+  color: #000;
 }
 
 .App-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -13,6 +67,10 @@
   font-weight: 700;
   display: flex;
   align-items: center;
+}
+
+.title-text {
+  margin-right: 10px;
 }
 
 .assembly-process-container {
@@ -24,39 +82,28 @@
   align-items: center;
 }
 
-.sort-switcher {
+.show {
+  color: rgba(0, 0, 0, 0.5)
+}
+
+.sort {
+  margin: 0 6px 0 12px;
+}
+
+.search {
   position: relative;
-  display: flex;
-  align-items: center;
-  height: 32px;
-  background: #E1E5E6;
-  border-radius: 9999px;
+  margin: 0 0 0 6px;
 }
 
-.switcher-value {
-  flex: 1;
-  text-align: center;
-  padding: 0 10px;
-  white-space: nowrap;
-  z-index: 1;
-}
-
-.switcher-slider {
+.search-icon {
   position: absolute;
-  left: 0;
-  top: 0;
-  height: 32px;
-  width: 50%;
-  border-radius: 9999px;
-  box-shadow: 0px 2px 4px rgba(55, 88, 123, 0.16), 0px 2px 4px rgba(0, 0, 0, 0.06);
-  background: #fff;
+  left: 14px;
 }
 
-.switcher-checkbox {
-  display: none;
+.search-field {
+  line-height: 32px;
+  border-radius: 999px;
+  border: 1px solid #D6DADB;
+  padding-left: 40px;
 }
 
-.switcher-checkbox:checked + .switcher-slider {
-  right: 0;
-  left: unset;
-}

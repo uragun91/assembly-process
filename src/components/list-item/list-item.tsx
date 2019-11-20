@@ -1,21 +1,13 @@
 import React, { Component } from "react";
 import './list-item.css'
 import { AssemblyProcess } from "../../models/AssemblyProcess";
-import { ReviewStatuses } from "../../enums/ReviewStatuses";
+import { ReviewStatuses, reviewStatusesMap } from "../../enums/ReviewStatuses";
 
 interface IListItemProps {
   item: AssemblyProcess
 }
 
 export class ListItem extends Component<IListItemProps> {
-
-  private previewStatusesMapper: {[key in ReviewStatuses]: string} = {
-    DRAFT: 'Draft',
-    SIMULATION_NEGATIVE: 'Simulation Negative',
-    SIMULATION_POSITIVE: 'Simulation Positive',
-    SIMULATION_REQUESTED: 'Simulation Requested',
-    SOLVED: 'Solved'
-  }
 
   private getReviewStatusClassNames(reviewStatus: ReviewStatuses): string {
     const classes = ['list-item__description-value']
@@ -37,7 +29,7 @@ export class ListItem extends Component<IListItemProps> {
           <div className="list-item__review-status">
             <span className="list-item__description-label">Review</span>
             <span className="list-item__filler"></span>
-            <span className={this.getReviewStatusClassNames(this.props.item.reviewStatus)}>{this.previewStatusesMapper[this.props.item.reviewStatus]}</span>
+            <span className={this.getReviewStatusClassNames(this.props.item.reviewStatus)}>{reviewStatusesMap[this.props.item.reviewStatus]}</span>
           </div>
           <div className="list-item__last-update">
             <span className="list-item__description-label">Last Update</span>

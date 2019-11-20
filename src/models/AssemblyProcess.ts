@@ -19,7 +19,7 @@ export class AssemblyProcess {
 
     return new AssemblyProcess(
       data._id || '',
-      data.img || 'angular.png',
+      'angular.png',
       data.assemblyStatus || '',
       data.reviewStatus || '',
       data.title || '',

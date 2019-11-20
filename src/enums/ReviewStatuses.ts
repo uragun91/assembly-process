@@ -5,3 +5,11 @@ export enum ReviewStatuses {
   simulationRequested = 'SIMULATION_REQUESTED',
   solved = 'SOLVED'
 }
+
+export const reviewStatusesMap: {[key in ReviewStatuses]: string} = {
+  DRAFT: 'Draft',
+  SIMULATION_NEGATIVE: 'Simulation Negative',
+  SIMULATION_POSITIVE: 'Simulation Positive',
+  SIMULATION_REQUESTED: 'Simulation Requested',
+  SOLVED: 'Solved'
+}
