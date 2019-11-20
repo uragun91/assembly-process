@@ -8,13 +8,13 @@ export class AssemblyProcess {
     public readonly assemblyStatus: AssemblyStatuses,
     public readonly reviewStatus: ReviewStatuses,
     public title: string,
-    public updatedAt: Date
+    public updated: Date
   ) {}
 
   public static build(data: any): AssemblyProcess {
-    let updatedAt = new Date(data.updatedAt)
-    if (isNaN(updatedAt.getTime())) {
-      updatedAt = new Date()
+    let updated = new Date(data.updated.replace(' ', ''))
+    if (isNaN(updated.getTime())) {
+      updated = new Date()
     }
 
     return new AssemblyProcess(
@@ -23,7 +23,7 @@ export class AssemblyProcess {
       data.assemblyStatus || '',
       data.reviewStatus || '',
       data.title || '',
-      updatedAt
+      updated
     )
   }
 }

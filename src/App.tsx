@@ -6,6 +6,9 @@ import dataService from './data.service';
 import { SvgIcons } from './components/svg-icons/svg-icons';
 import { timer, Subject } from 'rxjs';
 import { debounce } from 'rxjs/operators'
+import { SortOrders } from './enums/SortOrders';
+import { AssemblyStatuses } from './enums/AssemblyStatuses';
+import { ReviewStatuses } from './enums/ReviewStatuses';
 
 interface IAppState {
   items: AssemblyProcess[]
@@ -13,27 +16,37 @@ interface IAppState {
 
 class App extends React.Component<{}, IAppState> {
 
-  public searchFilterValue: string = ''
+  public titleFilter: string = ''
+  public sortOrder: SortOrders = SortOrders.DESC
+  public assemblyStatusFilter: AssemblyStatuses | '' = ''
+  public reviewStatusFilter: ReviewStatuses | '' = ''
+
   public searchSubject: Subject<string> = new Subject()
   public debounceSearch$ = this.searchSubject.pipe(debounce(() => timer(400)))
 
-  public UNSAFE_componentWillMount() {
-    this.setState({items: []})
+  get isDesc(): boolean {
+    return this.sortOrder === SortOrders.DESC
+  }
 
+  public UNSAFE_componentWillMount(): void {
+    this.setState({items: []})
+    this.initSubscribers()
+    dataService.getAssemblyProcesses(this.assemblyStatusFilter, this.reviewStatusFilter, this.titleFilter, this.sortOrder)
+  }
+
+  private initSubscribers(): void {
     dataService.assemblyProcesses$.subscribe((processes: AssemblyProcess[]) => {
       this.setState({items: processes})
     })
 
-    dataService.getAssemblyProcesses()
-
     this.debounceSearch$.subscribe((filterVal: string) => {
-      dataService.getAssemblyProcesses(filterVal)
+      dataService.getAssemblyProcesses(this.assemblyStatusFilter, this.reviewStatusFilter, filterVal, this.sortOrder)
     })
   }
 
   public handleSearchInputChange = (event: any) => {
-    this.searchFilterValue = event.target.value
-    this.searchSubject.next(this.searchFilterValue)
+    this.titleFilter = event.target.value
+    this.searchSubject.next(this.titleFilter)
   }
 
   render(){
@@ -49,10 +62,17 @@ class App extends React.Component<{}, IAppState> {
 
           <div className="list-items-controller">
             <div className="sort">
-
+              <div className="sort-switcher">
+                <label className="switcher-label">
+                  <input type="checkbox" className="switcher-checkbox" defaultChecked={this.isDesc} />
+                  <div className="switcher-slider"></div>
+                </label>
+                <span className="switcher-value">Lates First</span>
+                <span className="switcher-value">Oldest First</span>
+              </div>
             </div>
             <div className="search">
-              <input type="text" defaultValue={this.searchFilterValue} onChange={this.handleSearchInputChange}/>
+              <input type="text" defaultValue={this.titleFilter} onChange={this.handleSearchInputChange}/>
             </div>
           </div>
 

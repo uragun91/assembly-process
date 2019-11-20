@@ -22,12 +22,15 @@
 .list-item__review-status,
 .list-item__last-update {
   display: flex;
-  color: #BDC0C1;
 }
 
 .list-item__filler {
   flex: 1;
   border-bottom: 1px solid #BDC0C1;
+}
+
+.list-item__description-label {
+  color: #BDC0C1;
 }
 
 .list-item__actions {
@@ -54,4 +57,12 @@
 
 .list-item__btn:hover {
   outline: none;
+}
+
+.positive {
+  color: #34C86E;
+}
+
+.negative {
+  color: #E91630;
 }
