@@ -98,6 +98,24 @@ class App extends React.Component<{}, IAppState> {
     })
   }
 
+  handleItemTitleChanged = (itemId: string, title: string) => {
+    const items: AssemblyProcess[] = [...this.state.items]
+    const changedItem: AssemblyProcess | undefined = items.find((value: AssemblyProcess) => value._id === itemId)
+    if (changedItem) {
+      changedItem.title = title
+      this.setState({items})
+    }
+  }
+
+  handleSaveButtonClicked = (itemId: string) => {
+    const items: AssemblyProcess[] = [...this.state.items]
+    const itemToSave: AssemblyProcess | undefined = items.find((value: AssemblyProcess) => value._id === itemId)
+    if (itemToSave) {
+      itemToSave.updated = new Date()
+      dataService.updateAssemblyProcess(itemToSave)
+    }
+  }
+
   render(){
 
     return (
@@ -134,7 +152,12 @@ class App extends React.Component<{}, IAppState> {
           {
             this.state.items.map((process: AssemblyProcess) => {
               return <div className="assembly-process-container" key={process._id}>
-                <ListItem key={process._id} item={process}></ListItem>
+                <ListItem
+                  key={process._id}
+                  item={process}
+                  itemTitleChanged={this.handleItemTitleChanged}
+                  saveButtonClicked={this.handleSaveButtonClicked}
+                ></ListItem>
               </div>
             })
           }

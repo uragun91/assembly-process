@@ -30,6 +30,15 @@ class DataService {
       this.assemblyProcesses$.next(result)
     })
   }
+
+  public updateAssemblyProcess(item: AssemblyProcess) {
+    let url: string = `${this.baseApiUrl}/assemblyProcesses/${item._id}`
+    console.log('9789780',item)
+    axios.post(url, item)
+      .then((response: AxiosResponse) => {
+        console.log(response.data)
+      })
+  }
 }
 
 const dataService = new DataService()

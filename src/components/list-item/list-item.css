@@ -43,7 +43,15 @@
 }
 
 .list-item__rest-action {
-  margin: 0 5px
+  margin: 0 5px;
+  cursor: pointer;
+  stroke: currentColor;
+  color: #BDC0C1;
+  transition: stroke 150ms ease-in-out;
+}
+
+.list-item__rest-action:hover {
+  stroke: rgb(24, 24, 24);
 }
 
 .list-item__btn {

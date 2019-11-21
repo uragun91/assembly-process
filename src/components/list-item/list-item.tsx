@@ -4,10 +4,40 @@ import { AssemblyProcess } from "../../models/AssemblyProcess";
 import { ReviewStatuses, reviewStatusesMap } from "../../enums/ReviewStatuses";
 
 interface IListItemProps {
-  item: AssemblyProcess
+  item: AssemblyProcess,
+  itemTitleChanged: (id: string, newTitle: string) => void
+  saveButtonClicked: (id: string) => void
 }
 
-export class ListItem extends Component<IListItemProps> {
+interface IListItemState {
+  isEditingName: boolean
+}
+
+export class ListItem extends Component<IListItemProps, IListItemState> {
+
+  constructor(props: IListItemProps) {
+    super(props)
+
+    this.state = {
+      isEditingName: false
+    }
+  }
+
+  private handleEditClick = (event: any) => {
+    if (!this.state.isEditingName) {
+      this.setState({isEditingName: true})
+    }
+  }
+
+  private handleSaveClick = (event: any) => {
+    this.setState({isEditingName: false})
+    this.props.saveButtonClicked(this.props.item._id)
+  }
+
+  private handlePropNameChanged = (event: any) => {
+    this.props.item.title = event.target.value
+    this.props.itemTitleChanged(this.props.item._id, event.target.value)
+  }
 
   private getReviewStatusClassNames(reviewStatus: ReviewStatuses): string {
     const classes = ['list-item__description-value']
@@ -20,12 +50,23 @@ export class ListItem extends Component<IListItemProps> {
     return classes.join(' ')
   }
 
+
   render() {
     return (
       <div className="list-item">
         <div className="list-item__image"></div>
         <div className="list-item__description">
-          <h1 className="list-item__title">{this.props.item.title}</h1>
+          {
+            this.state.isEditingName &&
+            <span>
+              <input type="text" value={this.props.item.title} onChange={this.handlePropNameChanged} />
+              <button onClick={this.handleSaveClick}>Save</button>
+            </span>
+          }
+          {
+            !this.state.isEditingName &&
+            <h1 className="list-item__title">{this.props.item.title}</h1>
+          }
           <div className="list-item__review-status">
             <span className="list-item__description-label">Review</span>
             <span className="list-item__filler"></span>
@@ -41,7 +82,7 @@ export class ListItem extends Component<IListItemProps> {
         </div>
         <div className="list-item__actions">
           <div className="list-item__rest-actions">
-            <svg className="list-item__rest-action" width="17" height="17">
+            <svg className="list-item__rest-action" width="17" height="17" onClick={this.handleEditClick}>
               <use xlinkHref='#icon-edit' />
             </svg>
             <svg className="list-item__rest-action" width="17" height="17">
